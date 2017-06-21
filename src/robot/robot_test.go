@@ -6,21 +6,6 @@ import (
 	"command"
 )
 
-func TestReport(t *testing.T){
-	robot := Robot {
-        X_position: -1,
-				Y_position: -1,
-        Direction: enumtypes.NORTH,
-	}
-
-	want := "Output: -1,-1,NORTH"
-
-	got := robot.Report()
-	if got != want {
-		t.Errorf("Want: %v, Got: %v", want, got)
-	}
-}
-
 func TestTurnLeft(t *testing.T){
 	robot := Robot {
 				X_max: 5,
@@ -36,12 +21,14 @@ func TestTurnLeft(t *testing.T){
 		t.Errorf("Want: %v, Got: %v", want, got)
 	}
 
+	// Should still be NORTH since no PLACE command received yet
 	robot.Left()
 	got = robot.Direction
 	if got != want {
 		t.Errorf("Want: %v, Got: %v", want, got)
 	}
 
+	// LEFT command should now function since valid place has been received
 	robot.Place(0,0,enumtypes.NORTH)
 	robot.Left()
 	got = robot.Direction
@@ -95,12 +82,14 @@ func TestTurnRight(t *testing.T){
 		t.Errorf("Want: %v, Got: %v", want, got)
 	}
 
+	// Should still be NORTH since no PLACE command received yet
 	robot.Right()
 	got = robot.Direction
 	if got != want {
 		t.Errorf("Want: %v, Got: %v", want, got)
 	}
 
+	// LEFT command should now function since valid place has been received
 	robot.Place(0,0,enumtypes.NORTH)
 	robot.Right()
 	got = robot.Direction
@@ -159,6 +148,7 @@ func TestMove(t *testing.T){
 		t.Errorf("Want: %v, Got: %v", want, got)
 	}
 
+	// Robot should not move if no PLACE is received yet
 	robot.Move();
 	want = -1
 	got = robot.Y_position
@@ -183,6 +173,7 @@ func TestMove(t *testing.T){
 		t.Errorf("Want: %v, Got: %v", want, got)
 	}
 
+	// Robot should now respond to MOVE command
 	robot.Move();
 	want = 1
 	got = robot.Y_position
@@ -207,6 +198,7 @@ func TestMove(t *testing.T){
 		t.Errorf("Want: %v, Got: %v", want, got)
 	}
 
+	// Robot should not move outside boundary of 3x3 table
 	robot.Move();
 	want = 2
 	got = robot.Y_position
@@ -240,6 +232,7 @@ func TestMoveSouth(t *testing.T){
 		t.Errorf("Want: %v, Got: %v", want, got)
 	}
 
+	// Robot should not move if no PLACE is received yet
 	robot.Move();
 	want = -1
 	got = robot.Y_position
@@ -264,6 +257,7 @@ func TestMoveSouth(t *testing.T){
 		t.Errorf("Want: %v, Got: %v", want, got)
 	}
 
+	// Robot should now respond to MOVE command
 	robot.Move();
 	want = 1
 	got = robot.Y_position
@@ -288,6 +282,7 @@ func TestMoveSouth(t *testing.T){
 		t.Errorf("Want: %v, Got: %v", want, got)
 	}
 
+	// Robot should not move outside boundary of 3x3 table
 	robot.Move();
 	want = 0
 	got = robot.Y_position
@@ -369,6 +364,7 @@ func TestMoveEast(t *testing.T){
 		t.Errorf("Want: %v, Got: %v", want, got)
 	}
 
+	// Robot should not move outside boundary of 3x3 table
 	robot.Move();
 	want = 2
 	got = robot.X_position
@@ -382,7 +378,7 @@ func TestMoveEast(t *testing.T){
 	}
 }
 
-func TestMoveWes(t *testing.T){
+func TestMoveWest(t *testing.T){
 	robot := Robot {
 				X_max: 3,
 				Y_max: 3,
@@ -450,6 +446,7 @@ func TestMoveWes(t *testing.T){
 		t.Errorf("Want: %v, Got: %v", want, got)
 	}
 
+	// Robot should not move outside boundary of 3x3 table
 	robot.Move();
 	want = 0
 	got = robot.X_position
@@ -687,4 +684,19 @@ func TestExecute(t *testing.T){
 	got = robot.Report()
 	want = "Output: 0,0,EAST"
 	if got != want { t.Errorf("Want: %v, Got: %v", want, got) }
+}
+
+func TestReport(t *testing.T){
+	robot := Robot {
+        X_position: -1,
+				Y_position: -1,
+        Direction: enumtypes.NORTH,
+	}
+
+	want := "Output: -1,-1,NORTH"
+
+	got := robot.Report()
+	if got != want {
+		t.Errorf("Want: %v, Got: %v", want, got)
+	}
 }
